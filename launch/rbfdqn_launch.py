@@ -39,7 +39,7 @@ python3 RBFDQN.py {} {}
 '''
 	script_body=script_body.format(param_dict['name'],
 								   param_dict['name'],
-								   param_dict['name']
+								   param_dict['name'],
 								   param_dict['env'],
 								   param_dict['seed'])
 	return script_body
