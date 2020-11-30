@@ -8,6 +8,12 @@ import time
 import numpy as np
 import argparse
 
+def filldict(listKeys, listValues):
+	mydict = {}
+	for key, value in zip(listKeys, listValues):
+		 mydict[key] = value
+	return mydict
+
 def generate_script_body(param_dict):
 	script_body=\
 '''#!/bin/bash
