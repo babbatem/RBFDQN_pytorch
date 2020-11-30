@@ -25,7 +25,7 @@ def rbf_function_on_action(centroid_locations, action, beta):
 	assert len(action.shape) == 2, "Must pass tensor with shape: [batch x a_dim]"
 
 	diff_norm = centroid_locations - action.unsqueeze(dim=1).expand_as(centroid_locations)
-	diff_norm = diff_norm ** 2	
+	diff_norm = diff_norm ** 2
 	diff_norm = torch.sum(diff_norm, dim=2)
 	diff_norm = torch.sqrt(diff_norm + 1e-7)
 	diff_norm = diff_norm * beta * -1
@@ -95,7 +95,7 @@ class Net(nn.Module):
 			    nn.ReLU(),
 			    nn.Linear(self.params['layer_size_action_side'], self.params['layer_size_action_side']),
 			    nn.Dropout(p=self.params['dropout_rate']),
-			    nn.ReLU(),		    
+			    nn.ReLU(),
 			    nn.Linear(self.params['layer_size_action_side'], self.action_size * self.N),
 			    utils_for_q_learning.Reshape(-1, self.N, self.action_size),
 			    nn.Tanh(),
@@ -176,7 +176,7 @@ class Net(nn.Module):
 
 	def e_greedy_policy(self, s, episode, train_or_test):
 		'''
-		Given state s, at episode, take random action with p=eps if training 
+		Given state s, at episode, take random action with p=eps if training
 		Note - epsilon is determined by episode
 		'''
 		epsilon = 1.0 / numpy.power(episode, 1.0 / self.params['policy_parameter'])
@@ -195,7 +195,7 @@ class Net(nn.Module):
 
 	def e_greedy_gaussian_policy(self, s, episode, train_or_test):
 		'''
-		Given state s, at episode, take random action with p=eps if training 
+		Given state s, at episode, take random action with p=eps if training
 		Note - epsilon is determined by episode
 		'''
 		epsilon = 1.0 / numpy.power(episode, 1.0 / self.params['policy_parameter'])
@@ -216,7 +216,7 @@ class Net(nn.Module):
 
 	def gaussian_policy(self, s, episode, train_or_test):
 		'''
-		Given state s, at episode, take random action with p=eps if training 
+		Given state s, at episode, take random action with p=eps if training
 		Note - epsilon is determined by episode
 		'''
 		self.eval()
@@ -275,6 +275,24 @@ if __name__ == '__main__':
 	params = utils_for_q_learning.get_hyper_parameters(hyper_parameter_name, alg)
 	params['hyper_parameters_name'] = hyper_parameter_name
 	env = gym.make(params['env_name'])
+	max_ep_steps = env._max_episode_steps
+
+	if "Fetch" in params['env_name']:
+		try:
+			# this works for gym 0.17.3
+			env = gym.wrappers.FlattenObservation(env)
+		except:
+			try:
+				# NOTE: working for gym 0.12.5
+				env = gym.wrappers.FlattenDictWrapper(
+		    		env, dict_keys=['observation', 'desired_goal'])
+			except Exception as e:
+				print('failed to properly wrap Fetch environment.')
+				raise e
+
+	# this attribute doesn't appear to persist in the wrapper? 			
+	env._max_episode_steps = max_ep_steps
+
 	#env = gym.wrappers.Monitor(env, 'videos/'+params['env_name']+"/", video_callable=lambda episode_id: episode_id%10==0,force = True)
 	params['env'] = env
 	params['seed_number'] = int(sys.argv[2])
@@ -322,7 +340,7 @@ if __name__ == '__main__':
 			elif params['policy_type'] == 'e_greedy_gaussian':
 				a = Q_object.e_greedy_gaussian_policy(s, episode + 1, 'train')
 			elif params['policy_type'] == 'gaussian':
-				a = Q_object.gaussian_policy(s, episode + 1, 'train')			
+				a = Q_object.gaussian_policy(s, episode + 1, 'train')
 			sp, r, done, _ = env.step(numpy.array(a))
 			t = t + 1
 			done_p = False if t == env._max_episode_steps else done
