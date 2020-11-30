@@ -22,12 +22,12 @@ def generate_script_body(param_dict):
 
 #SBATCH -N 1
 #SBATCH -c 8
-#SBATCH -J rbf-learn
+#SBATCH -J {}
 #SBATCH --mem=12G
 #SBATCH -p gpu --gres=gpu:1
 
-#SBATCH -o rbf-learn-%j.out
-#SBATCH -e rbf-learn-%j.out
+#SBATCH -o {}-%j.out
+#SBATCH -e {}-%j.out
 
 cd /users/babbatem/
 source .bashrc
@@ -37,7 +37,10 @@ cd RBFDQN_pytorch
 python3 RBFDQN.py {} {}
 
 '''
-	script_body=script_body.format(param_dict['env'],
+	script_body=script_body.format(param_dict['name'],
+								   param_dict['name'],
+								   param_dict['name']
+								   param_dict['env'],
 								   param_dict['seed'])
 	return script_body
 
@@ -76,7 +79,6 @@ if __name__ == '__main__':
 	parser=argparse.ArgumentParser()
 	parser.add_argument('-t', '--test', action='store_true', help='don\'t submit, just count')
 	parser.add_argument('-n', '--exp-name', required=True, type=str, help='parent directory for jobs')
-	parser.add_argument('-g', '--gpu', action='store_true', help='request gpus')
 	parser.add_argument('-e', '--env', type=str, help='numeric, e.g. 60')
 	args=parser.parse_args()
 	main(args)
