@@ -324,6 +324,7 @@ if __name__ == '__main__':
 	all_times_per_steps = []
 	all_times_per_updates = []
 	for episode in range(params['max_episode']):
+		sys.stdout.flush()
 		print("episode {}".format(episode))
 		Q_this_episode = Net(params,
 		                     env,
