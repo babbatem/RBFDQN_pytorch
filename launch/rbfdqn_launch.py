@@ -21,7 +21,7 @@ def generate_script_body(param_dict):
 #SBATCH --time=8:00:00
 
 #SBATCH -N 1
-#SBATCH -c 8
+#SBATCH -c 4
 #SBATCH -J {}
 #SBATCH --mem=12G
 #SBATCH -p gpu --gres=gpu:1
