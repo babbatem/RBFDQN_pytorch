@@ -21,9 +21,10 @@ def generate_script_body(param_dict):
 #SBATCH --time=8:00:00
 
 #SBATCH -N 1
-#SBATCH -c 4
+#SBATCH -c 8
 #SBATCH -J rbf-learn
 #SBATCH --mem=12G
+#SBATCH -p gpu --gres=gpu:1
 
 #SBATCH -o rbf-learn-%j.out
 #SBATCH -e rbf-learn-%j.out
