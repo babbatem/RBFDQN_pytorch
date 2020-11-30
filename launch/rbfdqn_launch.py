@@ -33,7 +33,7 @@ source .bashrc
 source load_mods.sh
 
 cd RBFDQN_pytorch
-python3 RBF_DQN.py {} {}
+python3 RBFDQN.py {} {}
 
 '''
 	script_body=script_body.format(param_dict['env'],
