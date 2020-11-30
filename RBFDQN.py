@@ -270,6 +270,9 @@ if __name__ == '__main__':
 	else:
 		device = torch.device("cpu")
 		print("Running on the CPU")
+
+	sys.stdout.flush()
+	torch.save(torch.Tensor([0.0]), 'test.pt')
 	hyper_parameter_name = sys.argv[1]
 	alg = 'rbf'
 	params = utils_for_q_learning.get_hyper_parameters(hyper_parameter_name, alg)
@@ -290,7 +293,7 @@ if __name__ == '__main__':
 				print('failed to properly wrap Fetch environment.')
 				raise e
 
-	# this attribute doesn't appear to persist in the wrapper? 			
+	# this attribute doesn't appear to persist in the wrapper?
 	env._max_episode_steps = max_ep_steps
 
 	#env = gym.wrappers.Monitor(env, 'videos/'+params['env_name']+"/", video_callable=lambda episode_id: episode_id%10==0,force = True)
