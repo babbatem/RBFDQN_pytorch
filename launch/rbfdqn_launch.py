@@ -43,8 +43,7 @@ python3 RBF_DQN.py {} {}
 def submit(param_dict):
 	script_body = generate_script_body(param_dict)
 
-	objectname = param_dict['algo'] + '-' \
-	 		   + param_dict['env'] + '-' \
+	objectname = param_dict['env'] + '-' \
 			   + str(param_dict['seed'])
 
 	jobfile = "scripts/{}/{}".format(param_dict['name'], objectname)
