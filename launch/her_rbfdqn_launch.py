@@ -62,7 +62,7 @@ def main(args):
 	KEYS = ['seed', 'env', 'name']
 	SEEDS = np.arange(3)
 
-	os.makedirs('scripts/%s' % args.exp_name, exist_ok=True)
+	os.makedirs('scripts_her/%s' % args.exp_name, exist_ok=True)
 
 	k=0
 	for j in range(len(SEEDS)):
