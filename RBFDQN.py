@@ -272,7 +272,6 @@ if __name__ == '__main__':
 		print("Running on the CPU")
 
 	sys.stdout.flush()
-	torch.save(torch.Tensor([0.0]), 'test.pt')
 	hyper_parameter_name = sys.argv[1]
 	alg = 'rbf'
 	params = utils_for_q_learning.get_hyper_parameters(hyper_parameter_name, alg)
