@@ -273,7 +273,7 @@ if __name__ == '__main__':
 
 	sys.stdout.flush()
 	hyper_parameter_name = sys.argv[1]
-	alg = 'rbf'
+	alg = 'her_rbf'
 	params = utils_for_q_learning.get_hyper_parameters(hyper_parameter_name, alg)
 	params['hyper_parameters_name'] = hyper_parameter_name
 	env = gym.make(params['env_name'])
